@@ -218,3 +218,44 @@ Tarefa automática:
 TO-DO:
 
 **Verificar o modelo de resposta ao usuário do chamado**.
+
+# 
+# GLPI-agent
+
+Glpi-agent:
+
+  - É um serviço que permite gerar o inventário da máquina e enviar seus resultados para um servidor de confiança.
+  - Ele também permite indentificar máquinas na rede e gerar seus inventários, utilizando o protocolo SNMP.
+  - Funciona tanto no Windows como no Linux.
+
+Caso tenha algum problema ou dúvida durante a instalação e uso do agente, acesse a documentação:   (https://glpi-agent.readthedocs.io/en/latest/)
+
+## Instalação Windows
+
+Para realizar a instalação no windows, você deve baixar o instalador do agente no site ou github do glpi.
+
+- Download agent: (https://github.com/glpi-project/glpi-agent/releases)
+
+Ao terminar, execute o .exe:
+
+  - Aceite o contrato e avance.
+  - Pode deixar o caminho de instalação no *"Progam Files"* mesmo.
+  - No tipo de instalação temos 3 opções:
+    - Typical: Intala somente as ferramentas necessárias para a obtenção do inventário. **(Recomendado para as máquinas dos usuários)**
+     - Complete: Instala todas as ferramentas para inventário, descobrimento de máquinas na rede via SNMP e inventário remoto. **(Recomendado para a máquina que vai utilizar os recursos de SNMP, pois assim ela consegue enviar essas informações ao servidor do GLPI)**   
+     - Custom: Permite selecionar quais ferramentas serão instaladas nessa máquina.
+- Após selecinado, devemos inserir a url do nosso servidor em Remote target, pode ser: DNS https://example.com.br ou IP do servidor.
+- Agora só avançar e aguardar a instalação.
+
+### Enviar inventário
+
+Ao terminar a instalação, o agent já vai ser iniciado e enviará o inventário automáticamente para o servidor configurado de tempos em tempos, mas para podemos adiantar o primeiro envio e ver se tudo esta funcionando. Para isso:
+
+- Acesse o caminho: C:Program Files/GLPI Agent/
+- Ao entrar na pasta procure pelo bat glpi-agent e o execute.
+- Depois procure o bat glpi-inventory e o execute. Ele pode demorar um pouco para ser executado pois vai colher as informações da sua máquina.
+- Quando ele encerrar, abra um navegador e digite: [localhost:62354](localhost:62354)
+- Vai abrir uma página simples, onde mostra o que o agente está fazendo, qual a próxima hora de envio do inventário ao servidor e uma opção para forçar o envio imediato.
+- Clique em Force Inventory e pronto, o inventário foi em enviado para o servidor do GLPI.
+- Abra o servidor e verifique se as informações da máquina chegaram.
+
