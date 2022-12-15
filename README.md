@@ -1,49 +1,81 @@
 # GLPI Deploy
 
+## Sumário
+
+- [GLPI Deploy](#glpi-deploy)
+  - [Sumário](#sumário)
+  - [Pré-instalação (Requisitos)](#pré-instalação-requisitos)
+    - [Downloads](#downloads)
+  - [Sobre](#sobre)
+    - [Docker:](#docker)
+    - [Glpi:](#glpi)
+  - [Preparação](#preparação)
+    - [Docker:](#docker-1)
+    - [Criação de Diretórios](#criação-de-diretórios)
+  - [Construção dos Containers Docker](#construção-dos-containers-docker)
+    - [Banco de Dados](#banco-de-dados)
+    - [Docker](#docker-2)
+    - [Configurando a Aplicação](#configurando-a-aplicação)
+      - [GLPI - Banco de Dados](#glpi---banco-de-dados)
+      - [GLPI - Aplicação](#glpi---aplicação)
+- [To-do ( Instalação com backup (Migração/Restauração) )](#to-do--instalação-com-backup-migraçãorestauração-)
+  - [OBSERVAÇÕES](#observações)
+- [GLPI-Agent](#glpi-agent)
+  - [Instalação Windows](#instalação-windows)
+    - [Enviar inventário](#enviar-inventário)
+  - [Inventário da rede via SNMP](#inventário-da-rede-via-snmp)
+    - [Procurar dispositivos na rede](#procurar-dispositivos-na-rede)
 ## Pré-instalação (Requisitos)
+<br>
 
 ### Downloads
 
-#### Projeto GLPI-Deploy
-- ```bash
-  # Clone o repositório do projeto.
-  # 1. Ou clicando na botão download no site do Github.
-  # 2. Ou Executando o comando abaixo (Necessário autenticação).
+- Git instalado na máquina. [Site Git](https://git-scm.com/)
+  
+- ```bash 
+  #Clone o repositório do projeto.
+  #1. Ou clicando na botão download no site do Github.
+  #2. Ou Executando o comando abaixo (Necessário autenticação).
 
   $ git clone https://github.com/nutecuneal/glpi-deploy.git
-  ```
+    ```
 
-#### Docker:
+## Sobre
+<br>
+
+### Docker:
   - Docker é um plataforma que usa virtualização a nível de aplicação/"Sistema Operacional" para entregar softwares empacotados, chamados de containers.
   - [Docker: Guia de Uso e instalação](https://docs.docker.com/desktop/).
 
-#### GLPI:
+### Glpi:
   - Software de gerenciamento de serviços.
   - [GLPI Website](http://glpi-project.org/) (para baixar versão atual).
   - [Repositório do Github](https://github.com/glpi-project/glpi/releases ) (Todas as versões - Recomendado).
   - Versões Testadas: 10.0.2.
 
-### Preparação
+## Preparação
+<br>
 
-#### Docker:
+### Docker:
 - Certifique-se que a aplicação está executando.
 - ```bash
-  # Em algumas distribuições Linux.
+  #Em algumas distribuições Linux.
 
-  # Para verificar se o Docker está executando.
+  #Para verificar se o Docker está executando.
   $ sudo systemctl status docker.service
   
-  # Para iniciar o Docker (caso necessário).
+  #Para iniciar o Docker (caso necessário).
   $ sudo systemctl start docker.service
 
-  # Para fazer o Docker iniciar junto com o Sistema Operacional.
+  #Para fazer o Docker iniciar junto com o Sistema Operacional.
   $ sudo systemctl enable docker.service  
   ```
 
-#### GLPI:
+### GLPI:
 - Extraia o arquivo *glpi-{version}.tgz*. Copie a pasta extraída para dentro de "*$path1*/glpi-deploy/main". Onde *\$path1* é o caminho para pasta *glpi-deploy* clonada na seção [Projeto GLPI-Deploy](####Projeto-GLPI-Deploy).
 
 ## Primeira Instalação
+<br>
 
 ```bash
 # Entre na pasta glpi-deploy
@@ -63,9 +95,10 @@ $ cp main/configs/php/local_define.php $path2/lib/glpi/config
 ```
 **Um possível valor para *\$path2* e *\$path3* é "/var".**
 
-### Construção dos Containers Docker
+## Construção dos Containers Docker
+<br>
 
-#### Banco de Dados
+### Banco de Dados
 
 - Altere os seguintes arquivos (pasta "database") inserindo os valores preterido seguindo os modelos.
   
@@ -98,7 +131,7 @@ MARIADB_PASSWORD
 ## Ao configurar a aplicação o banco de deve ser inserido como "db_glpi". Caso queira utilizar outro nome substitua o termo "db_glpi" na linha 23 pelo de sua preferência.
 ```
 
-#### Docker
+### Docker
 
 ```dockerfile
 #  Em "docker-compose.yml"
@@ -195,7 +228,7 @@ $ sudo docker rmi -f glpi-deploy-glpi
 $ sudo docker-compose -f docker-compose.yml up
 ```
 
-# Intalação com backup (Migração/Restauração)
+# To-do ( Instalação com backup (Migração/Restauração) )
 
 ## OBSERVAÇÕES
 
@@ -219,8 +252,9 @@ TO-DO:
 
 **Verificar o modelo de resposta ao usuário do chamado**.
 
-# 
-# GLPI-agent
+<br>
+
+# GLPI-Agent
 
 Glpi-agent:
 
@@ -233,7 +267,7 @@ Caso tenha algum problema ou dúvida durante a instalação e uso do agente, ace
 ## Instalação Windows
 <br>
 
-Para realizar a instalação no windows, você deve baixar o instalador do agente no site ou github do glpi.
+Para realizar a instalação no windows, você deve baixar o instalador do agente no site ou GitHub do glpi.
 
 - Download agent: (https://github.com/glpi-project/glpi-agent/releases)
 
@@ -242,59 +276,65 @@ Ao terminar, execute o .exe:
   - Aceite o contrato e avance.
   - Pode deixar o caminho de instalação no *"Program Files/"* mesmo.
   - No tipo de instalação temos 3 opções:
-    - Typical: Instala somente as ferramentas necessárias para a obtenção do inventário. **(Recomendado para as máquinas dos usuários)**
-     - Complete: Instala todas as ferramentas para inventário, descobrimento de máquinas na rede via SNMP e inventário remoto. **(Recomendado para a máquina que vai utilizar os recursos de SNMP, pois assim ela consegue enviar essas informações ao servidor do GLPI)**   
+    - Typical: Instala somente as ferramentas necessárias para a obtenção do inventário. **(Recomendado para as máquinas dos usuários).**
+     - Complete: Instala todas as ferramentas para inventário, descobrimento de máquinas na rede via SNMP e inventário remoto. **(Recomendado para a máquina que vai utilizar os recursos de SNMP, pois assim ela consegue enviar essas informações ao servidor do GLPI).**   
      - Custom: Permite selecionar quais ferramentas serão instaladas nessa máquina.
-- Após selecinado, devemos inserir a url do nosso servidor em Remote target, pode ser: DNS c ou IP do servidor.
+- Após selecinado, devemos inserir a url do nosso servidor em Remote target, pode ser: DNS https://example.com.br/front/inventory.php  ou IP do servidor.
 - Local target pode deixar vazio.
 - Agora é  avançar e aguardar a instalação.
 
 ### Enviar inventário
 <br>
 
-Ao terminar a instalação, o agent já vai ser iniciado e enviará o inventário automáticamente para o servidor configurado de tempos em tempos, mas podemos adiantar o primeiro envio e ver se tudo esta funcionando. Para isso:
+Ao terminar a instalação, o agente já vai ser iniciado e enviará o inventário automáticamente para o servidor configurado de tempos em tempos, mas podemos adiantar o primeiro envio e ver se tudo esta funcionando. Para isso:
 
 - Acesse o caminho: "*C:Program Files/GLPI Agent/*"
 - Ao entrar na pasta procure pelo bat glpi-agent e o execute.
 - Depois procure o bat glpi-inventory e o execute. Ele pode demorar um pouco para ser executado pois vai colher as informações da sua máquina.
 - Quando ele encerrar, abra um navegador e digite: [localhost:62354](localhost:62354)
 - Vai abrir uma página simples, onde mostra o que o agente está fazendo, qual a próxima hora de envio do inventário ao servidor e uma opção para forçar o envio imediato.
-- Clique em Force Inventory e pronto, o inventário foi em enviado para o servidor do GLPI.
+- Clique em Force Inventory e pronto, o inventário foi enviado para o servidor do GLPI.
 - Abra o servidor e verifique se as informações da máquina chegaram. 
 
 **Obs: O caminho *"C:Program Files/GLPI Agent/"* só exite se você deixou ele como padrão na hora da instalação, caso tenha alterado, procure a pasta do Glpi Agent no caminho informado por você.**
 
 
-Antes de enviar um inventário manual para o Glpi, verifique se a regra de import denied está inativa:
+
+## Inventário da rede via SNMP
+<br>
+
+Para realizar o inventário da rede, a máquina que realizará isso deve ter o agente instalado com a opção complete.
+
+Diferente do inventário da máquina que é realizado de forma automática e sempre atualiza as informações, o inventário de rede é feito de forma manual e não atualiza as informações no servidor automáticamente. Assim, caso algum dispositivo mude de ip ou seja adicionados mais dispositivos na rede, o processo manual deve ser realizado novamente.
+
+**Obs: Antes de enviar um inventário manual para o Glpi, verifique se a regra de import denied está inativa:**
 
 1. Acesse o sistema do Glpi
 2. Na aba Administração clique em inventário
-3. Procure Regras para importação e vínculo de equipamentos e clique
+3. Procure: Regras para importação e vínculo de equipamentos e clique
 4. Selecione Dispositivo de rede 
 5. Clique em NetworkEquipment import denied
 6. Caso esteja ativa, desative e clique em salvar
 
 
-## Inventário da rede via SNMP
+### Procurar dispositivos na rede
 <br>
-
-Para realizar o inventário da rede a máquina que realizará isso deve ter o agent instalado com a opção complete.
-
-Diferente do inventário da máquina que é realizado de forma automática e sempre atuliza as informações, o inventário de rede é feito de forma manual e não atualiza as informações no servidor automáticamente. Assim, caso algum dispositivo mude de ip ou seja adicionados mais dispositivos na rede, o processo manual deve ser realizado novamente. 
 
 Os comandos que podem ser utilizados são:
 
 - glpi-netdiscovery -> Faz a identificação dos dispositivos na rede.
 - glpi-netinventory -> Gera o inventário dos dispositivos.
 - glpi-injector -> Faz o envio do inventário de rede para o servidor.
-
-### Procurar dispositivos na rede
-<br>
   
-Para todos os procedimentos devemos utilizar o cmd do Windows.
+
+**Obs: Antes de procurar um dispositivo, verifique se ele possui o protocolo SNMP ativo, alguns por padrão vem desativado.**
+  
+Para todos os procedimentos  devemos utilizar o cmd do Windows.
 
 
 - ```cmd
+  REM/ -> Local de comentário
+
    REM/ Acesse a pasta do Glpi-agent
 
   cd C:Program Files/Glpi Agent/
@@ -303,7 +343,7 @@ Para todos os procedimentos devemos utilizar o cmd do Windows.
 
   glpi-netdiscovery --first 192.168.1.1 --last 192.168.1.254 --port 161 --community public -i -s  dispostivos\
 
-  REM/ -i -> Já gera o inventário da máquina também, sem precisar usar o comando netinventory depois.
+  REM/ -i -> Já gera o inventário da máquina também, sem precisar usar o comando glpi-netinventory depois.
 
   REM/ -s -> Informe em que pasta você quer salvar os arquivos de inventário, se a pasta estiver fora da Glpi Agent, informe o caminho completo, ex.: C:Users\Documentos\inventario
   ```
@@ -313,7 +353,7 @@ Execute o comando ajustando os parâmetros a sua necessidade. Algumas explicaç�
 - port -> É a porta que o dispositivo usa para o SNMP, por padrão é a 161.
 - community -> É o nome da comunidade no dispositivo, por padão é public.
 - --v1, --v2c -> Pode ser necessário especificar caso o dispositivo não utilize a v1 que é a padrão.
-- --host -> Caso queira so identificar 1 dispositivo na rede utilize ao inves de --first e --last.
+- --host -> Caso queira somente identificar 1 dispositivo na rede utilize ao invés de --first e --last.
 
 Ex.:
 
@@ -321,7 +361,7 @@ Ex.:
 glpi-netdiscovery --host 192.168.1.20 --port 161 --v2c --community public -i -s dispositivos\
 ```
 
-Após o comando execute e caso não informe erros, serão criadas sub-pastas dentro de Dispositivos:
+Após o comando executar e caso não informe erros, serão criadas sub-pastas dentro de dispositivos:
 
 - netdiscovery
 - netinventory
@@ -331,22 +371,35 @@ A pasta que interessa para adicionar os dispositivos no servidor é a *netinveto
 ```cmd
 Rem/ Dentro da pasta do Glpi Agent execute
 
-glpi-injector -v -f Dispositivos\netinventory\192.168.1.20.xml --url https://login@example.com.br/front/inventory.php ou https://login@ip-servidor
+glpi-injector -v -f dispositivos\netinventory\192.168.1.20.xml --url https://login@example.com.br/front/inventory.php ou https://login@ip-servidor
 ```
 
 Nesse caso o envio será de um arquivo apenas, caso seja uma pasta inteira utilize:
 
 ```cmd
-glpi-injector -v -R -d Dispositivos\netinventory --url https://login@example.com.br/front/
+glpi-injector -v -R -d dispositivos\netinventory --url https://login@example.com.br/front/
 ```
 
 Explicação dos parâmetros:
 
-- -v -> Vai dando um feedback para o usuário sobre o que o programa esta fazendo.
+- -v -> Vai dando um feedback para o usuário sobre o que o comando esta fazendo.
 - -f -> Lê um arquivo.
 - -R -> Recursivo, ou seja, tudo que estiver na pasta.
 - -d -> Lê o diretório.
 - --url -> É o caminho do servidor, nele é preciso informar o nome do usuário de login e o endereço do servidor.
+  
+
+Acesse o sistema do Glpi e verifique se os dispositivos foram adicionados corretamente.
+
+Também é possivel fazer o envio do inventário de rede pelo sistema do Glpi, porém a desvantagem é que ele só aceita 1 arquivo por vez. Para isso:
+
+1. Acesse o sistema do Glpi
+2. Na aba Administração clique em inventário
+3. Selecione Importar do arquivo
+4. Clique em Escolher arquivo
+5. Escolha o arquivo
+6. Clique em Upload
+7. Volte e verifique se foi adicionado corretamente
 
 
 
